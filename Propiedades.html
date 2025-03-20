@@ -1,0 +1,37 @@
+<main class="center">
+
+    <div class="container">
+        <!-- Añadir Canvas -->
+        <canvas width="500" height="500"></canvas>
+    </div>
+    
+</main>
+
+<!-- Instalar la última dependencia de rive -->
+<script src="https://unpkg.com/@rive-app/canvas@latest"></script>
+<script>
+
+    new rive.Rive({
+        // URL del archivo de ejecución Rive (.riv)
+        src: "icon.riv",
+        // Lienzo para mostrar la animación
+        canvas: document.querySelector("canvas"),
+        // Seleccionar mesa de trabajo del archivo
+        artboard: "location-pin",
+        //  Reproducir animación/es
+        animations: ["rotate", "float"],
+        // Inicio automático de animaciones al cargar
+        autoplay: true,
+        // Llamada de retorno de archivo Rive cargado
+        onLoad: () => {
+            console.log("loaded")
+        },
+        // Devolución de error de archivo Rive
+        onLoadError: () => {
+            console.log("load error")
+        }
+    })
+
+</script>
+    
+</script>
