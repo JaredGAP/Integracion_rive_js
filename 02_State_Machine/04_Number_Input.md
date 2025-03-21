@@ -1,10 +1,10 @@
 # 🔢 Uso de Number Inputs en Rive
 
-Los **Number Inputs** en Rive permiten gestionar múltiples estados dentro de una *State Machine* utilizando valores numéricos. Son ideales para animaciones donde cada valor representa un estado, una etapa o una opción distinta dentro de la misma lógica visual.
+Los **Number Inputs** en Rive te permiten controlar el comportamiento de una *State Machine* mediante valores numéricos. Son útiles para representar diferentes **estados, niveles o fases** dentro de una animación, especialmente cuando hay más de dos opciones posibles (a diferencia de un booleano).
 
 ---
 
-## ⚙️ Configuración básica con Number Input
+## ⚙️ Ejemplo de uso con Number Input
 
 ```html
 <canvas class="icon" width="500" height="500"></canvas>
@@ -54,43 +54,42 @@ Los **Number Inputs** en Rive permiten gestionar múltiples estados dentro de un
 
 ---
 
-## 📖 Explicación clave
+## 🧠 ¿Qué hace este código?
 
-| Elemento | Descripción |
-|---------|-------------|
-| `iconState.value = N` | Cambia el valor del input numérico para activar un estado. |
-| `goTo("home")` | Ejecuta una transición visual y lógica hacia una sección específica. |
-| `.classList.toggle()` | Muestra u oculta páginas dependiendo del estado. |
+| Elemento                | Función                                                                 |
+|------------------------|-------------------------------------------------------------------------|
+| `iconState.value = N`  | Cambia el valor numérico para modificar el estado animado.             |
+| `goTo("home")`         | Cambia la vista y actualiza la animación según la sección.              |
+| `.classList.toggle()`  | Muestra u oculta páginas según el valor actual del estado.             |
 
 ---
 
-## 🧠 Casos de uso útiles para Number Inputs
+## 🎯 ¿Cuándo usar Number Inputs?
 
 ### 🧭 Navegación entre vistas
-- Menú → Home → Detalles → Perfil: cada valor representa una vista diferente.
+- Cambiar entre diferentes pantallas (Home, Menú, Detalles, Perfil, etc.).
 
 ### 🎚️ Ajustes progresivos
-- Niveles de zoom, volumen o brillo.
-- Escalado visual de una animación o ilustración.
+- Control de volumen, zoom o brillo con niveles.
+- Representar progreso o escalas visuales.
 
-### 🎞️ Animaciones con múltiples escenas
-- Ciclos de personajes (caminar, correr, saltar).
-- Estados de carga: inactivo → cargando → completo → error.
+### 🎞️ Múltiples animaciones en una sola lógica
+- Ciclos de personaje (ej. caminar, correr, saltar).
+- Estados de carga: 0 = inactivo, 1 = cargando, 2 = completo, 3 = error.
 
-### 🎮 Interfaz de juego o gamificación
-- Nivel de vida, progreso o puntuación.
-- Reacciones del avatar según puntuación (0 = triste, 3 = feliz).
+### 🎮 Interfaces de juegos
+- Mostrar reacciones diferentes según el nivel o el puntaje del jugador.
 
 ---
 
-## 🖱️ Controlar una animación con scroll del ratón
+## 🖱️ Controlar la animación con scroll
 
-También puedes utilizar un **Number Input** para controlar una animación progresiva según el movimiento del scroll del usuario:
+También puedes usar un Number Input para **sincronizar la animación con el desplazamiento** del usuario:
 
 ```html
 <script>
   let scrollInput;
-  const maxValue = 10; // Valor máximo del input numérico
+  const maxValue = 10;
 
   const animation = new rive.Rive({
     src: "scroll-animation.riv",
@@ -112,22 +111,18 @@ También puedes utilizar un **Number Input** para controlar una animación progr
 </script>
 ```
 
-### 📝 ¿Cómo funciona?
-- `scrollY` mide el desplazamiento actual.
-- Se calcula una proporción (`scrollRatio`) con respecto a toda la página.
-- Se multiplica por un valor máximo para limitar el número.
-- El input numérico de la *State Machine* se actualiza para reflejar ese valor en tiempo real.
+### 📌 ¿Cómo funciona?
+- `scrollY` mide cuánto se ha desplazado el usuario.
+- Se calcula un valor proporcional al total del scroll disponible.
+- Se actualiza el valor del input `scrollValue` para animar en función del desplazamiento.
 
-✅ Este patrón es ideal para animaciones que reaccionan al desplazamiento, como presentaciones interactivas o efectos visuales progresivos.
+✅ Este patrón es muy útil para animaciones de tipo presentación o efectos de parallax avanzados.
 
 ---
 
 ## ✅ Conclusión
 
-Los **Number Inputs** permiten un nivel elevado de control sobre la lógica visual de tus animaciones. Al representar valores dinámicos, te permiten crear interfaces altamente interactivas, con múltiples estados animados que responden tanto a eventos discretos como a entradas continuas (como el scroll).
+Los **Number Inputs** te permiten representar múltiples estados y crear transiciones visuales suaves y progresivas. Son ideales cuando tienes más de dos opciones, o cuando la animación debe responder a una variable continua como el scroll, una barra de progreso o un selector numérico.
 
-
-
-
-
+Combinados con triggers y booleanos, completan el conjunto de herramientas para construir interfaces animadas ricas y adaptables. 🔢✨
 

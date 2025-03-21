@@ -1,10 +1,10 @@
 # 🔠 Uso de Font Assets en Rive
 
-Rive permite cargar fuentes tipográficas de forma dinámica, lo que habilita un altísimo nivel de personalización en animaciones que contienen texto. Gracias a los **Font Assets**, puedes cambiar el tipo de letra de tu animación en tiempo real desde JavaScript, sin tener que modificar ni reexportar el archivo `.riv`.
+Rive permite integrar fuentes personalizadas dentro de tus animaciones y lo mejor es que puedes **reemplazarlas en tiempo real desde JavaScript**, sin necesidad de reexportar el archivo `.riv`. Esto ofrece un alto grado de flexibilidad y personalización en cualquier animación que utilice texto.
 
 ---
 
-## ⚙️ Ejemplo básico de configuración
+## ⚙️ Ejemplo práctico con cambio de fuente
 
 ```html
 <canvas width="500" height="500"></canvas>
@@ -24,7 +24,7 @@ Rive permite cargar fuentes tipográficas de forma dinámica, lo que habilita un
       if (asset.isFont) {
         fontAsset = asset;
         changeFont("Boska");
-        return true;
+        return true; // Ya manejamos la carga
       }
       return false;
     }
@@ -39,11 +39,11 @@ Rive permite cargar fuentes tipográficas de forma dinámica, lo que habilita un
       const font = await rive.decodeFont(fontBytes);
 
       fontAsset.setFont(font);
-      font.unref();
+      font.unref(); // Liberar memoria anterior
 
-      console.log("Fuente cambiada con éxito a:", fontName);
+      console.log("✅ Fuente cambiada a:", fontName);
     } catch (error) {
-      console.error("Error al cargar fuente:", error);
+      console.error("❌ Error al cargar la fuente:", error);
     }
   }
 </script>
@@ -51,51 +51,47 @@ Rive permite cargar fuentes tipográficas de forma dinámica, lo que habilita un
 
 ---
 
-## 📖 Explicación técnica
+## 🔍 Explicación del código
 
-| Función | Descripción |
-|--------|-------------|
-| `asset.isFont` | Detecta si el asset es una fuente. |
-| `decodeFont(bytes)` | Convierte el archivo `.ttf` a un formato válido para Rive. |
-| `setFont(font)` | Asigna una nueva fuente al asset dentro de la animación. |
-| `unref()` | Libera la memoria de fuentes anteriores. |
+| Elemento                   | Función                                                               |
+|----------------------------|-----------------------------------------------------------------------|
+| `asset.isFont`             | Detecta si el asset es una fuente.                                   |
+| `decodeFont(bytes)`        | Convierte una fuente `.ttf` en un formato legible por Rive.          |
+| `setFont(font)`            | Reemplaza la fuente actual con una nueva.                            |
+| `unref()`                  | Libera recursos asociados a la fuente anterior.                      |
 
 ---
 
-## 🧠 Casos de uso prácticos
+## 🧠 ¿Cuándo usar Font Assets?
 
-### ✏️ Personalización en vivo
-- Permitir al usuario elegir entre múltiples estilos tipográficos.
-- Adaptar fuentes según idioma (por ejemplo, fuentes que soporten caracteres especiales).
+### ✏️ Personalización tipográfica
+- Permitir al usuario elegir entre varios estilos tipográficos.
+- Cambiar fuentes según idioma o región (soporte para caracteres especiales).
 
-### 💼 Branding adaptable
-- Cambiar la fuente en tiempo real según el cliente o marca seleccionada.
-- Personalizar la fuente en presentaciones animadas para adaptarlas a distintos públicos.
+### 💼 Branding dinámico
+- Mostrar diferentes fuentes según la marca o cliente seleccionado.
+- Personalizar presentaciones animadas con la identidad visual del usuario.
 
-### 🧩 Integraciones inteligentes
-- Cargar una fuente específica según preferencias del usuario.
-- Cambiar la tipografía en función de la hora del día o de eventos contextuales.
+### 🧰 Herramientas creativas
+- Generadores de tarjetas, banners o contenido animado con tipografía intercambiable.
+- Aplicaciones de diseño interactivo con vistas previas animadas.
 
-### 🖼️ Herramientas visuales
-- Crear generadores de banners, tarjetas o contenidos con fuentes intercambiables.
-- Permitir a los usuarios visualizar distintos estilos antes de exportar una imagen o vídeo animado.
+### 🤖 Integraciones inteligentes
+- Cargar fuentes según configuración de usuario, perfil o contexto (día/noche).
 
 ---
 
 ## 🧰 Buenas prácticas
 
-- ✅ Usa archivos `.ttf` bien optimizados y con licencia apropiada.
-- ✅ Asegúrate de que el asset exista antes de aplicar `setFont()`.
-- ✅ Carga las fuentes desde una ruta segura y confiable.
-- ✅ Maneja errores de red para evitar fallos si el archivo no se encuentra.
-- ❌ No recargues fuentes innecesariamente si ya están aplicadas.
+- ✔️ Usa fuentes `.ttf` optimizadas y con licencia adecuada.
+- ✔️ Asegúrate de que el asset exista antes de aplicar `setFont()`.
+- ✔️ Carga fuentes desde rutas seguras y maneja errores de red.
+- ❌ No reapliques fuentes ya cargadas innecesariamente.
 
 ---
 
 ## ✅ Conclusión
 
-Los **Font Assets** amplían enormemente la capacidad expresiva de tus animaciones en Rive. Te permiten integrar lógica de personalización, adaptar el diseño a cada contexto y ofrecer experiencias únicas al usuario con tan solo cambiar una fuente.
+Los **Font Assets** de Rive te permiten añadir un nivel extra de personalización a tus animaciones con texto. Puedes adaptar la experiencia visual según el contexto, el usuario o la marca, todo sin tocar el archivo original de animación.
 
-Una herramienta clave para interfaces personalizables, branding animado y experiencias donde el texto también se anima.
-
-
+Ideal para interfaces personalizables, branding flexible y experiencias donde el texto también es protagonista. ✨

@@ -1,12 +1,14 @@
 # 🚀 Introducción a la Integración de Rive con JavaScript
 
-Rive es una herramienta poderosa que permite crear animaciones interactivas y de alto rendimiento para aplicaciones web. En esta guía aprenderás paso a paso cómo integrar una animación básica creada en Rive en tu página web utilizando JavaScript.
+**Rive** es una herramienta moderna para crear animaciones vectoriales **interactivas y ligeras**, ideales para páginas web, apps y juegos. A diferencia de otras soluciones como GIFs o animaciones CSS, Rive permite definir la lógica de animación (por ejemplo, respuestas a clics o movimientos) directamente desde su editor visual, y luego controlar esa animación fácilmente con JavaScript.
+
+En esta guía aprenderás paso a paso cómo integrar una animación básica de Rive en tu sitio web usando JavaScript. No necesitas experiencia avanzada: solo conocer HTML básico y un poco de JavaScript.
 
 ---
 
-## 📌 Configuración del HTML
+## 🧱 Paso 1: Estructura básica en HTML
 
-Primero, necesitamos configurar un archivo HTML que incluya un elemento `<canvas>` donde se mostrará nuestra animación:
+Primero, creamos una estructura HTML que incluya un `<canvas>`, donde se dibujará la animación:
 
 ```html
 <!DOCTYPE html>
@@ -29,49 +31,53 @@ Primero, necesitamos configurar un archivo HTML que incluya un elemento `<canvas
 </html>
 ```
 
-### 📖 Explicación:
+### 🧠 ¿Qué hace este código?
 
-- Colocamos un `<canvas>` directamente en el `body` con dimensiones establecidas (500x500px), donde se renderizará la animación.
-- Cargamos la librería Rive desde CDN para asegurarnos siempre de utilizar la última versión.
-- Finalmente, añadimos nuestro archivo JavaScript personalizado (`script.js`) para inicializar la animación.
+- Crea un `<canvas>` de 500x500 píxeles donde se mostrará la animación.
+- Incluye la librería oficial de Rive desde su CDN.
+- Ejecuta un archivo `script.js` donde controlaremos la animación.
 
 ---
 
-## ⚙️ Inicialización de la Animación con JavaScript
+## ⚙️ Paso 2: Inicializar la animación en JavaScript
 
-En el archivo `script.js` inicializaremos la animación utilizando el siguiente código:
+Ahora vamos al archivo `script.js`, donde escribimos el código necesario para mostrar la animación en el canvas.
 
 ```javascript
-// Inicializar la animación de Rive
+// Crear una nueva instancia de Rive
 const animacion = new rive.Rive({
-    src: "shapes.riv", // Archivo .riv generado en Rive
-    canvas: document.querySelector("canvas"), // Seleccionamos el canvas
+    src: "shapes.riv", // Archivo .riv exportado desde Rive
+    canvas: document.querySelector("canvas"), // Seleccionamos el canvas del HTML
     autoplay: true, // Inicia automáticamente
     animations: "loop" // Nombre de la animación a reproducir
 });
 ```
 
-### 📖 Explicación:
+### 📌 Detalles importantes:
 
-- Creamos una nueva instancia `rive.Rive`.
-- El parámetro `src` indica la ruta al archivo `.riv` que creaste previamente en Rive.
-- `canvas` apunta al elemento HTML `<canvas>` que definimos anteriormente.
-- Configuramos `autoplay: true` para que la animación inicie automáticamente al cargar la página.
-- La opción `animations` permite elegir qué animación reproducir. Aquí usamos un ejemplo llamado "loop".
-
----
-
-## 🎉 Resultado esperado
-
-Siguiendo estos pasos, tendrás una animación funcional integrada en tu web que se reproducirá automáticamente y estará lista para interactuar.
+- `src`: es la ruta al archivo `.riv` exportado desde el editor de Rive.
+- `canvas`: es el elemento HTML donde se dibujará la animación.
+- `autoplay`: si está en `true`, la animación se reproduce al cargar.
+- `animations`: nombre exacto de la animación que quieres reproducir (debe coincidir con el nombre en el archivo `.riv`).
 
 ---
 
-## ✅ Resumen
+## ✅ Resultado esperado
 
-Con estos pasos sencillos ya sabes cómo integrar fácilmente animaciones dinámicas creadas en Rive dentro de cualquier página web usando JavaScript. Explora los siguientes capítulos para profundizar en funcionalidades avanzadas, como interactividad y manejo de estados con State Machines.
+Si seguiste los pasos correctamente, deberías ver tu animación de Rive reproducirse automáticamente dentro del canvas al cargar la página.
 
 ---
 
-¡Disfruta creando experiencias web increíbles con Rive! 🚀✨
+## 📦 ¿Y ahora qué?
+
+¡Ya tienes tu primera animación Rive integrada! En los siguientes capítulos aprenderás cómo:
+
+- Hacer que tus animaciones reaccionen a eventos (como clics, scroll o formularios).
+- Usar **State Machines** para controlar comportamientos más complejos.
+- Cargar animaciones más avanzadas con imágenes, fuentes o animaciones condicionales.
+
+---
+
+¡Bienvenido al mundo de Rive! 🚀  
+Prepárate para crear experiencias web modernas, interactivas y sorprendentes ✨
 

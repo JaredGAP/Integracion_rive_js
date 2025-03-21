@@ -1,12 +1,12 @@
 # 📡 Uso de Event Listeners en Rive
 
-Rive permite escuchar eventos personalizados emitidos desde una *State Machine* mediante los **Event Listeners**. Estos eventos pueden contener datos dinámicos y te permiten ejecutar funciones JavaScript específicas en el momento exacto en que ocurre algo dentro de la animación.
+Rive permite escuchar eventos personalizados emitidos desde una *State Machine* mediante los **Event Listeners**. Esto te permite ejecutar funciones específicas en JavaScript en el momento exacto en que ocurre algo dentro de la animación.
 
-Esto abre un mundo de posibilidades para crear interfaces reactivas, sincronizadas y altamente interactivas.
+Esta funcionalidad es ideal para crear interfaces altamente interactivas, reactivas y sincronizadas con el estado visual.
 
 ---
 
-## ⚙️ Ejemplo básico de uso
+## ⚙️ Ejemplo básico en JavaScript
 
 ```html
 <canvas width="500" height="500"></canvas>
@@ -25,13 +25,13 @@ Esto abre un mundo de posibilidades para crear interfaces reactivas, sincronizad
 
   const label = document.querySelector(".label");
 
-  // Escuchar eventos emitidos desde Rive
+  // Escuchar eventos enviados desde la State Machine
   animation.on(rive.EventType.RiveEvent, (event) => {
     console.log("Evento recibido:", event);
     console.log("Nombre:", event.data.name);
     console.log("Propiedades:", event.data.properties);
 
-    // Mostrar texto dinámico proveniente de la animación
+    // Mostrar texto en pantalla según la propiedad del evento
     label.innerText = event.data.properties.label || "Evento sin nombre";
   });
 </script>
@@ -41,53 +41,60 @@ Esto abre un mundo de posibilidades para crear interfaces reactivas, sincronizad
 
 ## 🧠 ¿Qué son los eventos de Rive?
 
-Desde la interfaz de Rive Studio, puedes definir un **evento** dentro de una transición de una *State Machine*. Este evento puede llevar un nombre personalizado y un conjunto de propiedades clave-valor. Al activarse, ese evento puede ser capturado por tu código JavaScript mediante un listener.
+Desde el editor de Rive Studio, puedes definir eventos dentro de las transiciones de una *State Machine*. Estos eventos pueden llevar:
+
+- Un **nombre** personalizado (como `onComplete`, `onError`, `nextStep`).
+- Un **conjunto de propiedades** dinámicas (por ejemplo: `label: "¡Enviado!"`, `step: 3`).
+
+Estos eventos pueden ser escuchados en tu código para **sincronizar otras partes de la interfaz**.
 
 ---
 
-## 📖 Explicación clave del código
+## 🔍 Explicación del código
 
-| Línea clave | Descripción |
-|-------------|-------------|
-| `rive.EventType.RiveEvent` | Tipo de evento que escucha el listener (los generados en la animación). |
-| `event.data.name` | Nombre del evento que se definió en Rive Studio. |
-| `event.data.properties` | Objeto con los datos asociados al evento (pueden ser dinámicos). |
-| `label.innerText = ...` | Actualiza el contenido visible de un elemento según el evento recibido. |
+| Línea clave                  | Función                                                         |
+|-----------------------------|------------------------------------------------------------------|
+| `rive.EventType.RiveEvent`  | Tipo de evento personalizado generado desde Rive.               |
+| `event.data.name`           | Nombre del evento emitido.                                      |
+| `event.data.properties`     | Propiedades adjuntas al evento como un objeto clave-valor.      |
+| `label.innerText = ...`     | Muestra la propiedad `label` del evento en pantalla.            |
 
 ---
 
 ## 🧪 Casos de uso reales
 
-### 🛎️ Notificaciones visuales
-- Activar un aviso cuando se completa una animación.
-- Mostrar una confirmación cuando se finaliza una interacción (por ejemplo, un formulario animado).
+### 🛎️ Notificaciones
+- Mostrar un mensaje al completar una animación.
+- Confirmar que un paso visual se ha completado correctamente.
 
-### 🧩 Comunicación con otros componentes
-- Sincronizar otros elementos del DOM cuando ocurre un evento animado.
-- Cambiar la clase de un botón cuando la animación indica "activo", "error", etc.
+### 🧩 Comunicación entre componentes
+- Activar clases CSS o mostrar elementos del DOM cuando ocurre un evento.
 
-### 📊 Captura de métricas y analítica
-- Registrar cuántas veces se activó cierto estado animado.
-- Lanzar una acción de seguimiento (analytics, logs) cuando una animación reporta una acción específica.
+### 📊 Analítica y métricas
+- Contabilizar cuántas veces se lanza un estado animado.
+- Lanzar eventos de seguimiento o log personalizados.
 
-### 🎮 Integración en juegos o simulaciones
-- Detectar cuándo una animación de golpe ha terminado para habilitar el siguiente movimiento.
-- Lanzar efectos sonoros sincronizados con estados visuales.
+### 🎮 Juegos y simulaciones
+- Detectar cuándo termina un ataque para habilitar el siguiente.
+- Sincronizar efectos sonoros con la animación visual.
 
-### 🖼️ Experiencias narrativas y UI storytelling
-- Mostrar texto dinámico relacionado con la animación (por ejemplo, etiquetas, títulos, descripciones que cambian al avanzar en la animación).
-
----
-
-## 🧰 Buenas prácticas
-
-- ✅ Define nombres de eventos y propiedades claros y coherentes en Rive Studio.
-- ✅ Valida que `event.data.properties` no sea `undefined` antes de acceder a valores.
-- ✅ Usa los eventos para comunicar estados, no para lógica compleja que debería gestionarse desde JS.
-- ❌ No dependas exclusivamente de los eventos para el flujo principal de una app.
+### 🖼️ Storytelling visual
+- Mostrar texto o imágenes dinámicas al avanzar entre estados narrativos.
 
 ---
 
-## ✅ Conclusión
+## ✅ Buenas prácticas
 
-Los **Event Listeners** de Rive son el puente entre tus animaciones y la lógica de tu aplicación. Gracias a ellos, puedes reaccionar en tiempo real a lo que ocurre visualmente, sincronizar elementos del DOM, actualizar interfaces y potenciar la interactividad de forma profesional.
+- ✔️ Usa nombres y propiedades claras en los eventos de Rive Studio.
+- ✔️ Siempre valida que `event.data.properties` exista antes de acceder.
+- ❌ No delegues toda la lógica de tu aplicación a eventos de animación.
+- ✔️ Úsalos como *disparadores visuales* para complementar tu UI.
+
+---
+
+## 🎯 Conclusión
+
+Los **Event Listeners** en Rive son el puente perfecto entre lo visual y la lógica de tu interfaz. Te permiten detectar en tiempo real lo que ocurre dentro de tus animaciones y sincronizarlo con otros elementos del DOM.
+
+Al usarlos correctamente, puedes crear experiencias ricas, interactivas y perfectamente coordinadas. 🚀
+

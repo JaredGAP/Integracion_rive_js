@@ -1,128 +1,90 @@
-# 📱 Diseño Responsive con Rive, GSAP y HTML/CSS
+# 📱 Diseño Responsive para Feature Points
 
-Este documento explica cómo adaptar una animación de Rive dentro de un layout web **responsive**, asegurando que se visualice correctamente tanto en pantallas grandes como pequeñas. Nos centraremos especialmente en la sección `.points`, que incluye una animación sincronizada con el scroll y contenido textual asociado.
+Cuando se trata de animaciones con Rive y contenido dividido en secciones, es fundamental que el diseño funcione bien en **todas las resoluciones**, especialmente en dispositivos móviles.
 
----
-
-## 🧠 ¿Por qué es importante el diseño responsive?
-
-Un diseño **responsive** garantiza que tu sitio web y sus animaciones:
-- Se vean bien en móviles, tabletas y ordenadores.
-- Carguen correctamente en distintas resoluciones.
-- No recorten o deformen las animaciones al redimensionar la ventana.
+En este ejemplo adaptamos el layout de la animación por puntos (Feature Points) para que sea **responsive y accesible** sin perder el impacto visual ni la sincronización con scroll.
 
 ---
 
-## 🎯 ¿Qué se ha implementado?
-
-La animación de Rive en la sección `.points`:
-- Se encuentra dentro de un contenedor `.points-rive-container` con `position: sticky` para permanecer visible.
-- Se sincroniza con el scroll usando ScrollTrigger.
-- Cambia dinámicamente según el paso visible de una lista `<ul class="points">`.
-- Adapta su altura y comportamiento visual mediante media queries.
-
----
-
-## 🧱 Estructura HTML clave
-
-```html
-<section class="points">
-  <div class="wrapper">
-    <div class="header"><h1>Unlock all the features</h1></div>
-    <div class="points-rive-container">
-      <canvas width="400" height="400"></canvas>
-    </div>
-    <div class="points-wrapper">
-      <ul class="points">
-        <!-- lista de pasos -->
-      </ul>
-    </div>
-  </div>
-</section>
-```
-
----
-
-## 🎨 Explicación detallada de los estilos CSS
+## 🎨 Diseño original en desktop
 
 ```css
-section.points {
-  height: 240vh; /* Hace que toda la sección sea larga, permitiendo scroll */
-}
-
-section.points > .wrapper {
-  height: 100vh; /* Toma toda la altura de la ventana */
-  position: sticky; /* Permanece en su lugar mientras se hace scroll */
-  top: 0;
-  display: flex; /* Diseño horizontal por defecto */
+.feature {
+  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 2rem;
+  gap: 3rem;
 }
 
-.points-rive-container {
-  position: sticky;
-  top: 0;
-  height: 100vh; /* Ocupa toda la altura del viewport */
+.feature .content {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  flex: 1;
 }
 
-.points-wrapper {
-  --height: 50vh; /* Altura dinámica de cada punto */
-  height: var(--height);
-  overflow: hidden;
-  mask-image: linear-gradient(to bottom, transparent, white 16% 84%, transparent); /* Efecto de desvanecimiento en los extremos */
+.feature canvas {
+  flex: 1;
+  max-width: 500px;
+  height: auto;
 }
+```
 
-ul.points > li {
-  height: var(--height); /* Cada punto toma la misma altura que el wrapper */
-}
+Este diseño coloca el contenido a la izquierda y la animación a la derecha, ideal para pantallas grandes.
 
-@media (width < 800px) {
-  .wrapper {
-    flex-direction: column; /* En móviles, el diseño cambia a vertical */
+---
+
+## 📱 Versión responsive
+
+```css
+@media (max-width: 768px) {
+  .feature {
+    flex-direction: column-reverse;
+    padding: 1rem;
+    gap: 2rem;
   }
 
-  .header {
-    height: 8vh; /* Reduce el encabezado en pantallas pequeñas */
-  }
-
-  .points-rive-container {
-    height: 48vh; /* Reduce la altura de la animación en móviles */
+  .feature canvas {
     width: 100%;
+    max-width: 100%;
+    height: auto;
   }
 
-  .points-wrapper {
-    --height: 34vh; /* Altura más compacta para los pasos */
-  }
-
-  ul.points > li {
-    align-items: center;
-    text-align: center; /* Centra el texto para pantallas pequeñas */
+  .feature .content {
+    gap: 3rem;
   }
 }
 ```
 
-Este CSS permite que el contenido y la animación:
-- Se ajusten dinámicamente al tamaño de la pantalla.
-- Mantengan proporciones visuales agradables.
-- Sigan funcionando correctamente con ScrollTrigger.
+### 📌 ¿Qué estamos haciendo?
+
+- Cambiamos `flex-direction` a `column-reverse` para que la animación quede **encima** del contenido.
+- Ajustamos márgenes y separación entre secciones.
+- Hacemos que el canvas se adapte al ancho completo del contenedor.
 
 ---
 
-## ⚙️ JavaScript de adaptación al tamaño
+## ✅ Buenas prácticas para responsive + canvas
 
-En `app.js`, también se llama a `resizeDrawingSurfaceToCanvas()` en un listener de `resize`:
+- ✔️ Usa `max-width: 100%` para que el canvas no se desborde en pantallas pequeñas.
+- ✔️ Aplica `resizeDrawingSurfaceToCanvas()` al cargar la animación para que se ajuste correctamente.
+- ✔️ Testea en móviles reales o emuladores para verificar el comportamiento del layout.
+- ❌ No utilices valores fijos en `width` o `height` para el canvas cuando quieras responsividad.
+
+---
+
+## 🧩 Consejo adicional: adaptabilidad visual
+
+Si tu animación depende de un input `scrollValue`, asegúrate de que los cambios en altura (por diseño responsive) **no afecten negativamente al cálculo del scroll**. Puedes usar `ScrollTrigger.refresh()` después de cambiar el DOM o cargar estilos condicionales.
 
 ```javascript
-window.addEventListener("resize", () => {
-  pointsAnimation.resizeDrawingSurfaceToCanvas();
-});
+ScrollTrigger.refresh();
 ```
-
-Esto garantiza que cuando el usuario cambie el tamaño de la ventana, el canvas se redimensione correctamente para evitar que se vea pixelado o estirado.
 
 ---
 
-## ✅ Conclusión
+## 🏁 Conclusión
 
-El uso de media queries, unidades relativas (`vh`, `%`, `--height`) y la función `resizeDrawingSurfaceToCanvas()` de Rive permite que las animaciones se vean perfectas en cualquier dispositivo. Este tipo de integración es ideal para experiencias visuales modernas y profesionales.
+Adaptar tus secciones con Rive a dispositivos móviles es clave para ofrecer una experiencia profesional y completa. Un diseño responsive asegura que las animaciones y el contenido sean igual de impactantes y funcionales en cualquier pantalla. 📱✨
 

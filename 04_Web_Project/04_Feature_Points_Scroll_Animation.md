@@ -1,106 +1,92 @@
-# 🎯 Feature Point Animation con Scroll Sync
+# 🧭 Animación por Secciones: Feature Points Scroll
 
-En esta sección aprenderás cómo crear una animación con Rive que se sincroniza con diferentes **puntos clave (feature points)** de tu layout, activados mediante scroll. Cada punto activa una parte diferente de la animación, permitiendo contar una historia visual paso a paso mientras el usuario navega por la página.
+En este ejemplo aprenderás a crear un efecto de **navegación visual por secciones**, donde cada punto destacado (feature) se representa con una animación en Rive que cambia al hacer scroll.
 
----
-
-## 🧠 ¿Qué haremos?
-
-- Utilizaremos **ScrollTrigger de GSAP** para detectar cuándo el usuario llega a distintas secciones del layout.
-- Cada sección o paso actualizará el estado de la animación Rive mediante un **Number Input** o **Trigger Input**.
-- La animación responderá en tiempo real, destacando o activando partes específicas según la sección visible.
+Utilizaremos un **Number Input** para reflejar el estado actual según la sección visible, y GSAP ScrollTrigger para detectar el scroll del usuario.
 
 ---
 
-## 🧱 Estructura HTML sugerida
+## 🧱 Estructura del HTML
 
 ```html
-<section class="feature">
-  <div class="feature-rive">
-    <canvas width="640" height="640"></canvas>
+<main class="feature">
+  <div class="content">
+    <div class="section intro">Introducción</div>
+    <div class="section feature-1">Feature A</div>
+    <div class="section feature-2">Feature B</div>
+    <div class="section feature-3">Feature C</div>
+    <div class="section feature-4">Feature D</div>
   </div>
-  <div class="steps">
-    <div class="step" data-step="0">Paso 1: Introducción</div>
-    <div class="step" data-step="1">Paso 2: Seguridad</div>
-    <div class="step" data-step="2">Paso 3: Integración</div>
-    <div class="step" data-step="3">Paso 4: Final</div>
-  </div>
-</section>
+  <canvas width="500" height="500"></canvas>
+</main>
 ```
+
+- `.content` contiene las secciones de texto.
+- El `<canvas>` a la derecha muestra la animación correspondiente a cada sección.
 
 ---
 
-## ⚙️ Lógica en JavaScript
+## 🎬 Script en `app.js`
 
 ```javascript
-// Requiere: GSAP + ScrollTrigger + Rive
+let activeInput;
 
-document.addEventListener("DOMContentLoaded", () => {
-  gsap.registerPlugin(ScrollTrigger);
+const feature = new rive.Rive({
+  src: "features.riv",
+  canvas: document.querySelector("canvas"),
+  stateMachines: "state-machine",
+  autoplay: true,
+  onLoad: () => {
+    feature.resizeDrawingSurfaceToCanvas();
+    const inputs = feature.stateMachineInputs("state-machine");
+    activeInput = inputs.find(i => i.name === "active");
+  }
+});
 
-  let featureInput;
-
-  const animation = new rive.Rive({
-    src: "features.riv",
-    canvas: document.querySelector(".feature-rive canvas"),
-    stateMachines: "FeatureMachine",
-    autoplay: true,
-    onLoad: () => {
-      animation.resizeDrawingSurfaceToCanvas();
-      const inputs = animation.stateMachineInputs("FeatureMachine");
-      featureInput = inputs.find(i => i.name === "step");
+// Crear triggers por sección
+document.querySelectorAll(".section").forEach((el, index) => {
+  ScrollTrigger.create({
+    trigger: el,
+    start: "top center",
+    end: "bottom center",
+    onEnter: () => {
+      if (activeInput) activeInput.value = index;
+    },
+    onEnterBack: () => {
+      if (activeInput) activeInput.value = index;
     }
-  });
-
-  // Crear un ScrollTrigger por cada paso
-  document.querySelectorAll(".step").forEach((stepEl) => {
-    ScrollTrigger.create({
-      trigger: stepEl,
-      start: "top center",
-      end: "bottom center",
-      onEnter: () => {
-        const stepValue = parseInt(stepEl.dataset.step);
-        if (featureInput) featureInput.value = stepValue;
-      },
-      onEnterBack: () => {
-        const stepValue = parseInt(stepEl.dataset.step);
-        if (featureInput) featureInput.value = stepValue;
-      }
-    });
   });
 });
 ```
 
 ---
 
-## 🔍 ¿Cómo funciona?
+## 📖 Explicación paso a paso
 
-- Cada `.step` representa una sección del contenido.
-- Cuando esa sección entra en el viewport, ScrollTrigger lanza un evento.
-- El valor de `featureInput` (Number Input en Rive) cambia según el `data-step` del elemento.
-- En Rive, cada número puede representar una animación o highlight diferente.
-
----
-
-## 🧪 Casos de uso comunes
-
-- 🎓 Explicar una funcionalidad paso a paso.
-- 🧬 Mostrar un proceso dividido en fases.
-- 💡 Desplegar beneficios o características en scroll.
-- 🛠️ Guiar al usuario a través de diferentes componentes de un producto.
+| Elemento                        | Función                                                                 |
+|---------------------------------|-------------------------------------------------------------------------|
+| `activeInput.value = index`     | Cambia el valor del Number Input en función de la sección visible.     |
+| `ScrollTrigger.create(...)`     | Detecta entrada/salida de cada sección en el viewport.                 |
+| `onEnter`, `onEnterBack`        | Se activan al hacer scroll hacia adelante o retroceder.                |
 
 ---
 
-## 🧰 Sugerencias y mejoras
+## ✨ Usos típicos de este patrón
 
-- Agrega animaciones suaves entre pasos con GSAP para el contenido textual.
-- Usa `opacity` o `clip-path` para revelar elementos gradualmente.
-- Puedes usar triggers en lugar de números si cada sección es muy distinta visualmente.
-- Asegúrate de que la animación sea clara y no demasiado distractora.
+- Mostrar características de un producto paso a paso.
+- Storytelling visual (timeline animado).
+- Introducciones o guías con navegación sincronizada.
 
 ---
 
-## ✅ Conclusión
+## ✅ Buenas prácticas
 
-Con esta técnica, puedes transformar el scroll del usuario en una guía visual que le ayuda a entender tu contenido paso a paso. Es perfecta para explicar funcionalidades, productos o conceptos complejos de forma interactiva y atractiva.
+- ✔️ Asegúrate de que el nombre del Number Input (`active`) coincida exactamente con el usado en Rive.
+- ✔️ Mantén un orden lógico en tus secciones para que el valor del input tenga sentido progresivo.
+- ❌ Evita sobrecargar el canvas con muchas actualizaciones simultáneas.
 
+---
+
+## 🏁 Conclusión
+
+Este patrón permite crear experiencias interactivas donde **el contenido y la animación avanzan juntos**, reforzando el mensaje visual y textual de tu web. Ideal para secciones informativas o presentaciones paso a paso. 🪄

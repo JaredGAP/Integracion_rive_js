@@ -1,86 +1,85 @@
-# 🚀 Guía de Integración de Rive con JavaScript
+# 🚀 Guía Completa de Integración Rive + JavaScript
 
-## 📌 Introducción
-Bienvenido a esta guía práctica sobre cómo integrar **Rive** en una web utilizando **JavaScript**. Rive es una herramienta de animación avanzada que permite crear gráficos interactivos y optimizados para la web, proporcionando una alternativa eficiente a los GIFs y otros formatos de animación tradicionales.
-
-## 🎯 Objetivo
-# 🚀 Integración de Animaciones Rive con JavaScript
-
-Bienvenido al repositorio práctico donde aprenderás paso a paso cómo integrar animaciones creadas en **Rive** en tus proyectos web usando **JavaScript**.
+Bienvenido a este repositorio donde aprenderás a integrar **animaciones Rive** en proyectos web reales usando **JavaScript**. A través de ejemplos claros y prácticos, descubrirás cómo llevar tus interfaces al siguiente nivel con animaciones interactivas, reactivas y modernas.
 
 ---
 
-## 🎯 Objetivos del repositorio
+## 🎯 Objetivos
 
-- ✅ Aprender a exportar e integrar animaciones Rive (.riv).
-- ✅ Usar JavaScript para cargar y controlar animaciones.
-- ✅ Implementar interacciones mediante State Machines.
-- ✅ Optimizar la carga y gestión de assets.
-- ✅ Aplicar buenas prácticas para proyectos web reales.
+- ✅ Aprender a cargar y mostrar animaciones `.riv` en un `<canvas>`.
+- ✅ Conectar animaciones con eventos como scroll, hover o clic.
+- ✅ Usar **State Machines** con inputs tipo `trigger`, `boolean` y `number`.
+- ✅ Cargar dinámicamente imágenes, fuentes o animaciones desde archivos o URLs.
+- ✅ Crear un proyecto web completo y responsive usando GSAP + Rive.
 
 ---
 
-## 🛠️ ¿Qué necesito para empezar?
+## 🛠️ Requisitos para empezar
 
-- [Rive](https://rive.app/): para crear y exportar animaciones.
-- Editor de código: (recomendado VS Code).
-- Navegador web moderno (Chrome, Firefox, Edge).
+- Una cuenta en [Rive](https://rive.app/) para crear/exportar tus animaciones.
+- Editor de código (recomendado: VS Code).
+- Navegador moderno (Chrome, Firefox, Edge).
+
+Instala la librería de Rive si usas bundlers:
+```bash
+npm install @rive-app/canvas
+```
+
+O usa la CDN para proyectos simples:
+```html
+<script src="https://unpkg.com/@rive-app/canvas@2.8.3"></script>
+```
 
 ---
 
 ## 📚 Estructura del Proyecto
 
-El repositorio está organizado en secciones ordenadas:
-
-| Sección | Contenido principal |
-| ------- | ------------------- |
-| [01 Getting Started](01_Getting_Started/) | Carga básica de una animación Rive en la web. |
-| [02 State Machine](02_State_Machine/) | Integración y uso básico de State Machines para interacciones. |
-| [03 Loading Assets](03_Loading_Assets/) | Gestión eficiente de assets en animaciones Rive. | 
-| [04 Web Project](04_Web_Project/) | Proyecto web completo integrando animaciones Rive. |
-| [05 Tips & Tricks](05_Tips_and_Tricks/) | Consejos y trucos útiles para optimizar tu proyecto con Rive. |
+| Carpeta | Descripción |
+|--------|-------------|
+| `01_Getting_Started/` | Carga básica de una animación Rive en HTML y control desde JS. |
+| `02_State_Machine/`   | Uso de máquinas de estados con triggers, booleanos y valores numéricos. |
+| `03_Loading_Assets/`  | Cómo reemplazar imágenes y fuentes dinámicamente desde JS. |
+| `04_Web_Project/`     | Proyecto web real con scroll, interacciones, eventos y diseño responsive. |
+| `05_Tips_and_Tricks/` | Funcionalidades avanzadas: abrir enlaces, actualizar texto, cargar manualmente. |
 
 ---
 
-## ▶️ ¿Cómo utilizar este repositorio?
+## ▶️ ¿Cómo usar este repositorio?
 
-Sigue estos pasos para sacar el máximo provecho:
-
-1. **Crea tu animación en [Rive](https://rive.app/)** y expórtala como archivo `.riv`.
-2. **Añade la librería Rive a tu proyecto:** usa CDN o instala vía NPM:
-
-   ```bash
-   npm install @rive-app/canvas
-   ```
-
-3. **Carga tu animación en un `<canvas>` con JavaScript**. Mira los ejemplos de la sección [01 Getting Started](01_Getting_Started/).
-4. **Controla tus animaciones con eventos e interacciones** usando ejemplos de la sección [02 State Machine](02_State_Machine/).
+1. Revisa cada carpeta en orden para construir tu aprendizaje paso a paso.
+2. Ejecuta los ejemplos con Live Server (VS Code) para evitar errores con WebAssembly.
+3. Usa tus propias animaciones o edita las existentes para practicar.
+4. Modifica los ejemplos y prueba nuevas combinaciones de inputs y animaciones.
 
 ---
 
-## 💡 Recomendaciones
+## 💡 Consejos útiles
 
-- Lee cuidadosamente los comentarios del código para entender cada paso.
-- Ejecuta los ejemplos usando un servidor local (por ejemplo, Live Server en VSCode) para evitar problemas con WebAssembly.
-- Explora cada sección de manera secuencial para un aprendizaje óptimo.
-
----
-
-## 🔗 Recursos útiles
-
-- [Web oficial de Rive](https://rive.app/)
-- [Documentación oficial de Rive](https://help.rive.app/)
-- [Comunidad de Rive](https://discord.gg/rive)
-- [Repositorio oficial Rive JS Runtime](https://github.com/rive-app/rive-wasm)
+- ✔️ Nombra bien los inputs en Rive Studio para encontrarlos fácilmente desde JS.
+- ✔️ Siempre usa `resizeDrawingSurfaceToCanvas()` al cargar la animación.
+- ✔️ Valida URLs o datos antes de usarlos con `setRenderImage`, `setFont` o `textRun()`.
 
 ---
 
-## 📝 ¿Cómo contribuir?
+## 🔗 Recursos adicionales
 
-¡Todas las contribuciones son bienvenidas! Envía un Pull Request o abre un Issue con sugerencias, mejoras o errores que encuentres.
+- 🌐 [Sitio oficial de Rive](https://rive.app/)
+- 📚 [Documentación oficial](https://help.rive.app/)
+- 💬 [Comunidad de Discord](https://discord.gg/rive)
+- 🛠️ [Runtime JS en GitHub](https://github.com/rive-app/rive-wasm)
 
 ---
 
-Hecho con ❤️. ¡Disfruta animando tu web con Rive!
+## 🙌 Contribuciones
 
+¡Toda mejora es bienvenida! Si tienes sugerencias, ideas o encuentras errores:
+
+- Abre un Issue 🐞
+- Envía un Pull Request 🔧
+
+---
+
+Hecho con ❤️ para que tus interfaces cobren vida.
+
+**¡Anima tu web con Rive!** 🎨⚡
 

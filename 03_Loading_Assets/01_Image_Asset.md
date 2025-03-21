@@ -1,10 +1,10 @@
 # 🖼️ Uso de Image Assets en Rive
 
-Rive permite integrar imágenes dinámicas dentro de tus animaciones mediante el sistema de **Image Assets**. Esta funcionalidad te permite reemplazar imágenes en tiempo real desde código, algo muy útil para crear experiencias visuales personalizadas, animaciones adaptables o contenido generado dinámicamente.
+Rive permite integrar imágenes dentro de tus animaciones mediante el sistema de **Image Assets**. Lo más interesante es que puedes **cambiar esas imágenes dinámicamente desde JavaScript**, permitiendo experiencias personalizadas, contenido en tiempo real y animaciones contextuales.
 
 ---
 
-## ⚙️ Ejemplo básico de configuración
+## ⚙️ Ejemplo práctico en JavaScript
 
 ```html
 <canvas width="500" height="500"></canvas>
@@ -23,76 +23,73 @@ Rive permite integrar imágenes dinámicas dentro de tus animaciones mediante el
       if (asset.isImage) {
         imgAsset = asset;
       }
-      return false; // Indicamos que lo gestionaremos manualmente
+      return false; // Indicamos que gestionaremos el asset manualmente
     }
   });
 
   async function changeImage() {
-    console.log("Cargando imagen...");
+    console.log("Cargando nueva imagen...");
 
     const response = await fetch("https://picsum.photos/800");
     const buffer = await response.arrayBuffer();
     const img = await rive.decodeImage(new Uint8Array(buffer));
 
-    imgAsset.setRenderImage(img);
-    console.log("Imagen cambiada!");
+    if (imgAsset) {
+      imgAsset.setRenderImage(img);
+      console.log("✅ Imagen reemplazada!");
+    }
 
-    img.unref(); // Libera memoria de la imagen previa
+    img.unref(); // Libera memoria usada por la imagen anterior
   }
 </script>
 ```
 
 ---
 
-## 📖 Explicación técnica
+## 🔍 ¿Qué hace este código?
 
-| Función | Descripción |
-|--------|-------------|
-| `assetLoader(asset, bytes)` | Se ejecuta cuando Rive detecta un asset embebido en el archivo `.riv`. |
-| `asset.isImage` | Permite identificar si el asset es una imagen. |
-| `setRenderImage(img)` | Reemplaza la imagen en la animación con una nueva. |
-| `decodeImage(bytes)` | Convierte un archivo de imagen (en bytes) en un formato válido para Rive. |
-| `unref()` | Libera memoria cuando una imagen ya no se necesita. |
-
----
-
-## 🧠 Casos de uso avanzados
-
-### 🎨 Personalización de interfaces
-- Permitir al usuario cargar su propia foto de perfil y verla animada en tiempo real.
-- Cambiar el fondo o texturas de una animación según el tema del sitio.
-
-### 📦 Visualización de productos
-- Mostrar un mockup que cambia según la imagen de producto seleccionada.
-- Probar distintas combinaciones de materiales o colores en una animación.
-
-### 📸 Herramientas de diseño
-- Arrastrar una imagen y verla integrada en una animación tipo collage o mockup animado.
-- Crear un sistema de vista previa animada para presentaciones, flyers, etc.
-
-### 🧩 Integraciones dinámicas
-- Actualizar contenido visual desde una API externa.
-- Vincular imágenes de perfiles sociales a avatares animados.
-
-### 📱 Apps móviles o kioscos
-- Permitir al usuario hacerse una foto y verla animada en una postal digital o tarjeta.
-- Mostrar animaciones personalizadas por usuario según sus elecciones.
+| Elemento                       | Función                                                                 |
+|-------------------------------|-------------------------------------------------------------------------|
+| `assetLoader(asset, bytes)`   | Detecta cuando Rive intenta cargar un recurso embebido.                |
+| `asset.isImage`               | Verifica si el asset es una imagen.                                    |
+| `setRenderImage(img)`         | Reemplaza visualmente la imagen en la animación.                       |
+| `decodeImage(bytes)`          | Convierte un archivo en bytes a una imagen válida para Rive.          |
+| `unref()`                     | Libera recursos de memoria al dejar de usar una imagen.                |
 
 ---
 
-## 🧰 Buenas prácticas y consideraciones
+## 🧩 Casos de uso interesantes
 
-- ✅ Verifica que `imgAsset` esté definido antes de aplicar `setRenderImage()`.
-- ✅ Usa imágenes optimizadas para no saturar la memoria o afectar el rendimiento.
-- ✅ Maneja errores de carga para evitar fallos si la imagen no está disponible.
-- ✅ Considera agregar una animación de carga mientras se descarga y decodifica la imagen.
-- ❌ No reutilices el mismo objeto `img` sin llamar a `unref()` para liberar memoria.
+### 🎨 Personalización visual
+- Cargar una foto de perfil en un avatar animado.
+- Cambiar fondos, texturas o ilustraciones según preferencias del usuario.
+
+### 🛍️ Visualización de productos
+- Mostrar un producto en distintas versiones o colores.
+- Aplicar imágenes personalizadas sobre maquetas (mockups).
+
+### 🧰 Herramientas creativas
+- Crear una app que combine imágenes arrastradas con animaciones predefinidas.
+- Mostrar presentaciones animadas con contenido generado en tiempo real.
+
+### 🌐 Integración dinámica con APIs
+- Mostrar contenido visual proveniente de servicios externos.
+- Conectar datos de usuario con elementos gráficos en la interfaz.
 
 ---
 
-## ✅ Conclusión
+## ✅ Buenas prácticas
 
-Los **Image Assets** permiten llevar tus animaciones a otro nivel de dinamismo. Ya no estás limitado a lo que exportas desde Rive Studio: puedes modificar el contenido visual en tiempo real, generando experiencias únicas, personalizadas y contextualmente relevantes.
+- ✔️ Asegúrate de que `imgAsset` esté definido antes de llamar a `setRenderImage()`.
+- ✔️ Usa imágenes optimizadas para reducir el tiempo de carga y uso de memoria.
+- ✔️ Considera mostrar una animación de carga mientras se descarga la nueva imagen.
+- ❌ No reutilices imágenes sin llamar a `unref()` para liberar memoria correctamente.
 
-Ideal para apps interactivas, experiencias personalizadas y animaciones que se adaptan a cada usuario o situación.
+---
+
+## 🎯 Conclusión
+
+Los **Image Assets** hacen posible que tus animaciones de Rive sean dinámicas y personalizadas. Al permitir reemplazar imágenes en tiempo real desde JavaScript, abres la puerta a experiencias interactivas únicas: desde productos personalizables hasta presentaciones con contenido generado en vivo.
+
+Una herramienta poderosa para crear interfaces modernas, flexibles y centradas en el usuario. 🖼️✨
 

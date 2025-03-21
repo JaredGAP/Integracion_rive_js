@@ -1,18 +1,28 @@
 # 🔄 Uso de State Machines en Rive
 
-Las *State Machines* en Rive permiten gestionar lógicas de animación complejas de forma visual y eficiente. Con ellas puedes crear transiciones automáticas, responder a eventos del usuario y controlar comportamientos sin tener que manipular directamente cada animación.
+Las **State Machines** (máquinas de estados) son una de las funciones más potentes de Rive. Permiten controlar la lógica de las animaciones de forma visual, definiendo cómo deben comportarse ante distintas situaciones o interacciones del usuario. Esto es ideal para botones, personajes, formularios interactivos, entre otros casos.
 
 ---
 
-## ⚙️ Configuración básica en JavaScript
+## 🧠 ¿Qué es una State Machine?
 
-Para utilizar una *State Machine* desde JavaScript, necesitas referenciar su nombre con la propiedad `stateMachines` al crear la instancia `rive.Rive`:
+Una *State Machine* es un sistema de transición entre estados. En lugar de reproducir animaciones de forma manual, puedes diseñar en el editor de Rive **cómo se pasa de un estado a otro** según ciertas condiciones:
+
+- 🔁 Transiciones automáticas entre animaciones.
+- 🎯 Reacción a entradas (inputs) como booleanos, números o *triggers*.
+- 🖱️ Respuesta a eventos como clics, teclado, scroll u otros eventos del DOM.
+
+Esto te permite separar la lógica de animación del código JavaScript, haciéndola más modular y visual.
+
+---
+
+## ⚙️ Ejemplo básico en JavaScript
 
 ```javascript
 const animation = new rive.Rive({
   src: "state_machine.riv",
   canvas: document.querySelector("canvas"),
-  stateMachines: "state-machine",
+  stateMachines: "state-machine", // nombre exacto definido en Rive
   autoplay: true,
   onLoad: () => {
     animation.resizeDrawingSurfaceToCanvas();
@@ -20,51 +30,49 @@ const animation = new rive.Rive({
 });
 ```
 
-### 📖 Explicación:
-- `src`: Ruta al archivo `.riv` exportado desde Rive.
-- `canvas`: Elemento donde se mostrará la animación.
-- `stateMachines`: Nombre exacto de la *State Machine* creada en Rive.
-- `autoplay`: Inicia automáticamente la animación.
+### 🧩 Explicación rápida:
+- `src`: archivo `.riv` exportado desde Rive.
+- `canvas`: el elemento donde se mostrará la animación.
+- `stateMachines`: nombre de la máquina de estados que deseas activar.
+- `autoplay`: indica si debe empezar automáticamente.
 
 ---
 
-## 🧠 ¿Qué es una State Machine?
+## 🎚️ Control de Inputs desde JavaScript
 
-Una *State Machine* en Rive es un sistema visual de control de estados. Permite:
-
-- Transitar entre diferentes animaciones según condiciones.
-- Usar entradas (inputs) como botones, variables booleanas, números o trigger.
-- Reaccionar a eventos del usuario como clics, teclas o desplazamientos.
-
----
-
-## ✋ Control de Inputs desde JavaScript
-
-Puedes acceder y modificar los inputs de una *State Machine* con los métodos `stateMachineInputs()` y `fire()` (para triggers):
+Para interactuar con tu máquina de estados desde código, puedes acceder a sus *inputs* (entradas) y modificarlos.
 
 ```javascript
-// Obtener un input booleano
+// Obtener todos los inputs de la state machine
 const inputs = animation.stateMachineInputs("state-machine");
-const toggle = inputs.find(input => input.name === "activo");
 
-// Cambiar el valor del input
+// Cambiar un booleano
+const toggle = inputs.find(input => input.name === "activo");
 if (toggle) toggle.value = true;
 
-// Lanzar un trigger
+// Activar un trigger
 const trigger = inputs.find(input => input.name === "disparar");
 if (trigger) trigger.fire();
 ```
 
+### 📌 Tipos de Inputs comunes:
+- **Boolean**: Encendido/apagado (ideal para estados binarios).
+- **Trigger**: Pulsadores que activan una transición una sola vez.
+- **Number**: Valores numéricos continuos (como velocidad, dirección, etc.).
+
 ---
 
-## 🎯 Beneficios de usar State Machines
+## 🎯 ¿Por qué usar State Machines?
 
-- ✅ **Interactividad avanzada:** Responde a eventos del usuario en tiempo real.
-- ✅ **Animaciones fluidas:** Las transiciones se gestionan visualmente, sin lógica complicada.
-- ✅ **Reutilización y mantenimiento:** Puedes organizar lógicas complejas sin repetir código.
+- ✅ **Mayor interactividad**: permite que tus animaciones respondan al comportamiento del usuario.
+- ✅ **Menos lógica en el código**: se gestiona desde el editor de Rive.
+- ✅ **Mejor mantenimiento**: puedes cambiar el comportamiento sin tocar JavaScript.
 
 ---
 
 ## ✅ Conclusión
 
-Las *State Machines* son una de las herramientas más potentes de Rive para construir animaciones interactivas y adaptables. Son ideales para interfaces, botones animados, personajes interactivos y cualquier experiencia que requiera lógica de estados.
+Usar *State Machines* en Rive te da el poder de crear **animaciones reactivas y lógicas** sin tener que escribir toda la lógica desde cero en JavaScript. 
+
+En los próximos apartados verás cómo trabajar con distintos tipos de inputs (triggers, booleanos, números) y cómo capturar eventos de las máquinas de estado desde tu código para llevar la interactividad al siguiente nivel. 🚀
+

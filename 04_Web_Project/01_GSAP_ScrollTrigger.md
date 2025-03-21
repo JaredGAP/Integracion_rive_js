@@ -84,17 +84,17 @@ window.addEventListener("scroll", () => {
 
 ## 📖 Explicación de los elementos clave
 
-| Elemento | Descripción |
-|----------|-------------|
-| `gsap.from()` | Anima desde un estado inicial hacia el estado actual del elemento. |
-| `scrollTrigger` | Configura la animación para que reaccione al scroll. |
-| `scrub: true` | Hace que la animación avance o retroceda según el desplazamiento. |
-| `rive.Rive(...)` | Carga una animación de Rive con una State Machine. |
-| `scrollInput.value = n` | Actualiza el Number Input de la animación en tiempo real. |
+| Elemento               | Descripción                                                             |
+|------------------------|-------------------------------------------------------------------------|
+| `gsap.from()`          | Anima desde un estado inicial hacia el estado actual del elemento.       |
+| `scrollTrigger`        | Configura la animación para que reaccione al scroll.                      |
+| `scrub: true`          | Hace que la animación avance o retroceda según el desplazamiento.         |
+| `rive.Rive(...)`       | Carga una animación de Rive con una State Machine.                        |
+| `scrollInput.value = n`| Actualiza el Number Input de la animación en tiempo real.                 |
 
 ---
 
-## 🎯 Casos de uso recomendados
+## 🌟 Casos de uso recomendados
 
 - Animaciones de introducción sincronizadas con el scroll.
 - Efectos de aparición, fade in/out, y desplazamiento de contenido.
@@ -114,5 +114,4 @@ window.addEventListener("scroll", () => {
 
 ## ✅ Conclusión
 
-**GSAP + ScrollTrigger** es una herramienta potente para crear animaciones de desplazamiento reactivas y elegantes. Combinado con **Rive**, permite controlar visualmente animaciones en función del scroll del usuario, lo que resulta ideal para páginas web creativas, narrativas interactivas y diseños de experiencia envolventes.
-
+**GSAP + ScrollTrigger** es una herramienta potente para crear animaciones de desplazamiento reactivas y elegantes. Combinado con **Rive**, permite controlar visualmente animaciones en función del scroll del usuario, lo que resulta ideal para páginas web creativas, narrativas interactivas y diseños de experiencia envolventes. 📈

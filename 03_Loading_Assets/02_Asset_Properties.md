@@ -1,27 +1,27 @@
 # 🧩 Propiedades de Asset en Rive
 
-En Rive, un **Asset** es cualquier recurso adicional embebido o referenciado en una animación: imágenes, fuentes, sonidos u otros datos. Cuando trabajas con animaciones que utilizan assets dinámicos desde JavaScript (por ejemplo, mediante `assetLoader`), es importante conocer las propiedades disponibles para inspeccionarlos y manipularlos.
+En Rive, un **Asset** es cualquier recurso embebido o referenciado en una animación: imágenes, fuentes, sonidos o datos. Cuando gestionas estos recursos desde JavaScript usando el parámetro `assetLoader`, puedes acceder a varias propiedades que te ayudan a identificar, personalizar o reemplazar dinámicamente ese asset.
 
 ---
 
-## 🔍 Propiedades comunes de un Asset
+## 🔍 Propiedades comunes del objeto Asset
 
-Cuando usas el método `assetLoader(asset, bytes)` en la instancia de `rive.Rive`, puedes acceder a las siguientes propiedades del objeto `asset`:
+Cuando defines una animación con un `assetLoader`, el objeto `asset` ofrece estas propiedades:
 
-| Propiedad | Tipo | Descripción |
-|----------|------|-------------|
-| `id` | `number` | Identificador único del asset. |
-| `name` | `string` | Nombre del asset definido en Rive Studio. |
-| `type` | `string` | Tipo de asset (por ejemplo, `image`, `font`, etc.). |
-| `isImage` | `boolean` | Verdadero si el asset es una imagen. |
-| `isFont` | `boolean` | Verdadero si el asset es una fuente. |
-| `renderImage` | `object/null` | Imagen cargada asociada al asset (si aplica). |
-| `setRenderImage(img)` | `function` | Permite establecer una imagen nueva para el asset. |
-| `setFont(font)` | `function` | Permite establecer una nueva fuente para el asset. |
+| Propiedad            | Tipo        | Descripción                                                             |
+|----------------------|-------------|-------------------------------------------------------------------------|
+| `id`                 | `number`    | Identificador único del asset.                                         |
+| `name`               | `string`    | Nombre del asset definido en Rive Studio.                              |
+| `type`               | `string`    | Tipo de recurso (`image`, `font`, etc.).                               |
+| `isImage`            | `boolean`   | `true` si el asset es una imagen.                                      |
+| `isFont`             | `boolean`   | `true` si el asset es una fuente.                                      |
+| `renderImage`        | `object`    | Imagen actual vinculada al asset (si aplica).                          |
+| `setRenderImage()`   | `function`  | Permite establecer una nueva imagen para el asset.                     |
+| `setFont()`          | `function`  | Permite establecer una nueva fuente para el asset.                     |
 
 ---
 
-## 🧪 Ejemplo práctico
+## ⚙️ Ejemplo práctico
 
 ```javascript
 const animation = new rive.Rive({
@@ -33,29 +33,38 @@ const animation = new rive.Rive({
 
     if (asset.isImage) {
       console.log("Es una imagen:", asset);
-      // Aquí puedes cargar una imagen personalizada con setRenderImage()
+      // Aquí puedes cargar una imagen personalizada
     }
 
     if (asset.isFont) {
       console.log("Es una fuente:", asset);
-      // Aquí puedes cargar una fuente personalizada con setFont()
+      // Aquí podrías aplicar una fuente externa
     }
 
-    return false; // Indica que el asset no se cargó automáticamente
+    return false; // Control total desde JS
   }
 });
 ```
 
 ---
 
-## 🔧 Consideraciones útiles
+## 🧠 ¿Para qué sirve conocer estas propiedades?
 
-- Puedes acceder a los assets definidos en Rive Studio al exportar un archivo `.riv` con imágenes o fuentes embebidas.
-- Si quieres reemplazar un asset, guarda la referencia y luego utiliza `.setRenderImage()` o `.setFont()` según el tipo.
-- Los assets no se cargan automáticamente si devuelves `false` en el `assetLoader`, lo que te da control total sobre su gestión.
+- Para **reemplazar assets** (como imágenes o fuentes) de forma dinámica sin modificar el `.riv`.
+- Para **inspeccionar y depurar** qué assets están embebidos en un archivo.
+- Para crear sistemas de **personalización visual**, cargando contenido adaptado a cada usuario o situación.
+
+---
+
+## 🧰 Buenas prácticas
+
+- ✔️ Utiliza nombres únicos y descriptivos en Rive Studio para identificar tus assets fácilmente.
+- ✔️ Verifica que el tipo de asset coincida (`isImage`, `isFont`) antes de reemplazarlo.
+- ✔️ Si cargas recursos externos (imágenes, fuentes), hazlo de forma asincrónica para evitar bloqueos.
+- ❌ No asumas que todos los assets se cargarán automáticamente. Usa `return false` en `assetLoader` para gestionarlos tú mismo.
 
 ---
 
 ## ✅ Conclusión
 
-Conocer las propiedades de los **Asset** en Rive te permite personalizar tus animaciones dinámicamente desde JavaScript. Ya sea para reemplazar imágenes, tipografías u otros recursos visuales, este sistema te brinda flexibilidad para crear experiencias interactivas y adaptables sin modificar el archivo `.riv` original.
+Conocer las **propiedades de un Asset** en Rive te permite personalizar al máximo tu animación desde código. Ya sea para cambiar imágenes, añadir nuevas fuentes o analizar recursos embebidos, dominar estos detalles te ayudará a construir experiencias visuales ricas, flexibles y dinámicas. 🎨

@@ -1,25 +1,25 @@
 # 🌐 Open URL Event en Rive
 
-Rive permite que las animaciones generen **eventos especiales**, como abrir un enlace directamente desde la propia animación. Esto se logra mediante los **Rive Events** y específicamente el tipo de evento llamado `OpenUrlEvent`. Sin embargo, por razones de seguridad y control, estos eventos **no se activan automáticamente** a menos que tú lo configures explícitamente.
+Rive permite que las animaciones generen **eventos personalizados** como abrir un enlace directamente desde una animación. Esto es posible gracias a los **Rive Events**, y específicamente al tipo `OpenUrlEvent`, diseñado para enlazar una animación con una URL.
 
 ---
 
 ## 🧠 ¿Qué es un OpenUrlEvent?
 
-Un **OpenUrlEvent** es un tipo especial de evento que puedes emitir desde Rive Studio y que contiene una URL como propiedad. Si se gestiona correctamente en el navegador, abrirá esa URL en una nueva pestaña o ventana.
+Un **OpenUrlEvent** es un evento que se puede emitir desde una máquina de estados en Rive. Incluye una propiedad `url` y, si se maneja correctamente en el navegador, puede **abrir una nueva pestaña o ventana** con ese enlace.
+
+Este tipo de evento es útil para experiencias como:
+- Animaciones de llamada a la acción.
+- Banners interactivos que enlazan a promociones.
+- Interfaces educativas o narrativas que enlazan con más contenido.
 
 ---
 
-## ⚠️ Comportamiento por defecto
+## ⚠️ Importante: comportamiento por defecto
 
-Por seguridad, Rive **NO ejecuta automáticamente** los eventos especiales como OpenUrlEvent. Esto significa que:
+Por razones de seguridad, Rive **NO activa automáticamente** eventos como `OpenUrlEvent`. Tienes dos formas de manejarlos:
 
-- Necesitas **escucharlos manualmente** usando un listener de tipo `EventType.RiveEvent`, o bien...
-- Puedes activar el modo automático con `automaticallyHandleEvents: true`.
-
----
-
-## ✅ Activar OpenUrlEvent automáticamente
+### Opción 1: Gestión automática (modo fácil)
 
 ```javascript
 const animation = new rive.Rive({
@@ -27,21 +27,16 @@ const animation = new rive.Rive({
   canvas: document.querySelector("canvas"),
   autoplay: true,
   stateMachines: "url-machine",
-  automaticallyHandleEvents: true, // Activa la gestión automática
+  automaticallyHandleEvents: true, // 🔓 Activa el modo automático
   onLoad: () => animation.resizeDrawingSurfaceToCanvas()
 });
 ```
 
-### 🔐 ¿Qué pasa con esto?
-
-- Si la animación emite un evento con una propiedad `url`, Rive abrirá esa URL automáticamente cuando se active el evento.
-- Esta funcionalidad puede ser útil en experiencias interactivas tipo "click para visitar".
+🟢 **Resultado:** cuando la animación dispare un evento que incluya la propiedad `url`, el navegador abrirá esa URL automáticamente.
 
 ---
 
-## 👂 Manejo manual (modo recomendado)
-
-Si quieres tener más control sobre qué se abre y cómo:
+### Opción 2: Manejo manual (modo recomendado)
 
 ```javascript
 const animation = new rive.Rive({
@@ -49,37 +44,50 @@ const animation = new rive.Rive({
   canvas: document.querySelector("canvas"),
   autoplay: true,
   stateMachines: "url-machine",
-  automaticallyHandleEvents: false, // por defecto es false
+  automaticallyHandleEvents: false, // por defecto está desactivado
   onLoad: () => animation.resizeDrawingSurfaceToCanvas()
 });
 
 animation.on(rive.EventType.RiveEvent, (event) => {
   const url = event.data.properties.url;
-  if (url) {
-    window.open(url, "_blank"); // Puedes validarlo antes de abrir
+  if (url && isValidUrl(url)) {
+    window.open(url, "_blank");
   }
 });
+
+function isValidUrl(url) {
+  try {
+    new URL(url);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
 ```
 
-### 🔒 Ventajas de manejarlo manualmente
-- ✅ Puedes validar la URL antes de abrirla.
-- ✅ Puedes registrar el evento (para analítica).
-- ✅ Puedes abrir en la misma pestaña, en otra o con condiciones.
-- ✅ Evitas comportamiento no deseado o inesperado en tu aplicación.
+🔒 **Ventajas del modo manual:**
+- Validar la URL antes de abrirla.
+- Personalizar cómo se abre (misma pestaña, nueva, popup...).
+- Registrar métricas o estadísticas.
+- Prevenir URLs maliciosas o mal formadas.
 
 ---
 
-## 🔧 ¿Cómo configurar un OpenUrlEvent en Rive Studio?
+## 🔧 ¿Cómo emitir un OpenUrlEvent desde Rive Studio?
 
-1. Abre tu *State Machine*.
-2. Crea una transición.
-3. Añade un **evento** desde esa transición.
-4. Nómbralo (opcional).
-5. Añade una propiedad llamada `url` con el enlace deseado.
+1. Abre tu máquina de estados.
+2. Añade una transición.
+3. En esa transición, añade un evento.
+4. En el evento, crea una propiedad llamada `url`.
+5. Escribe la URL como valor (por ejemplo, `https://tusitio.com`).
+
+¡Y listo! Ya puedes emitir eventos desde la animación.
 
 ---
 
 ## ✅ Conclusión
 
-El uso de **OpenUrlEvent** en Rive es una forma poderosa de enlazar tu animación con el contenido externo. Ya sea automáticamente o de forma controlada, te permite convertir animaciones en componentes interactivos reales que guían al usuario hacia acciones claras.
+`OpenUrlEvent` convierte tus animaciones de Rive en **puentes interactivos** hacia otras páginas, productos o contenidos. Puedes usarlos de forma segura y flexible, controlando exactamente qué se abre, cómo y cuándo.
+
+Perfecto para experiencias ricas donde la animación no solo acompaña, sino que **invita a actuar**. 🚀
 

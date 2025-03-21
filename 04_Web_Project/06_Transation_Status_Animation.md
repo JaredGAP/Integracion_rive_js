@@ -1,120 +1,86 @@
-# 💸 Transaction Status Animation con Rive
+# 💸 Animación de Estado de Transacción con Rive
 
-Este módulo muestra cómo implementar una animación de estado de transacción usando **Rive**, integrándola a un flujo de envío de dinero. La animación se activa con un trigger y muestra un resultado (éxito o fallo) mediante un input numérico.
+En este ejemplo vamos a simular una animación de **envío de dinero** usando Rive. Se utilizará una combinación de:
 
----
+- `Trigger Input` para activar la animación.
+- `Number Input` para reflejar el resultado (`0 = fail`, `1 = success`).
 
-## 🧠 ¿Qué aprenderás aquí?
-
-- Usar **Trigger Inputs** y **Number Inputs** en una State Machine.
-- Escuchar eventos del usuario (botón "Send").
-- Simular un proceso de envío y actualizar el resultado con una animación.
+Esta animación puede usarse para representar procesos como pagos, confirmaciones, envíos o notificaciones.
 
 ---
 
-## 🧱 Estructura HTML relevante
+## 🧱 Estructura del HTML
 
 ```html
-<main>
-  <div class="container">
-    <div class="topbar">
-      <span>←</span>
-      <span>Send Money</span>
-      <span>•••</span>
-    </div>
-
-    <div class="rive-wrapper">
-      <canvas></canvas>
-    </div>
-
-    <div class="input-wrapper">
-      <input type="text" placeholder="$0">
-      <h2>In Transit</h2>
-    </div>
-
-    <p>sending money to</p>
-    <div class="avatar"><p>🐵</p></div>
-    <p>Jacob</p>
-    <span class="amt"></span>
-
-    <a class="send" onclick="sendMoney()">Send</a>
-  </div>
-</main>
+<canvas class="transaction" width="500" height="500"></canvas>
+<p class="result"></p>
+<div class="controls">
+  <button onclick="send(true)">Simular éxito</button>
+  <button onclick="send(false)">Simular error</button>
+</div>
 ```
 
 ---
 
-## ⚙️ Lógica de la animación con Rive y JS
+## 🎬 Script en `app.js`
 
 ```javascript
-let startTrigger;   // Trigger para iniciar animación
-let resultNumber;   // Number Input para definir resultado
+let triggerInput, resultInput;
 
 const animation = new rive.Rive({
-  src: "send.riv",
-  canvas: document.querySelector("canvas"),
+  src: "transaction.riv",
+  canvas: document.querySelector(".transaction"),
+  stateMachines: "TransactionMachine",
   autoplay: true,
-  stateMachines: "state-machine",
   onLoad: () => {
     animation.resizeDrawingSurfaceToCanvas();
-
-    const inputs = animation.stateMachineInputs("state-machine");
-    startTrigger = inputs.find(i => i.name === "load");
-    resultNumber = inputs.find(i => i.name === "result");
+    const inputs = animation.stateMachineInputs("TransactionMachine");
+    triggerInput = inputs.find(i => i.name === "send");
+    resultInput = inputs.find(i => i.name === "result");
   }
 });
 
-function sendMoney() {
-  startTrigger.fire(); // Inicia la animación
+function send(isSuccess) {
+  if (!triggerInput || !resultInput) return;
 
-  initiateTransaction((isSuccess) => {
-    resultNumber.value = isSuccess ? 1 : 0; // 1 = éxito, 0 = fallo
-  });
+  resultInput.value = isSuccess ? 1 : 0;
+  triggerInput.fire();
+
+  const resultText = document.querySelector(".result");
+  resultText.innerText = isSuccess ? "✅ Transacción exitosa" : "❌ Transacción fallida";
 }
 ```
 
 ---
 
-## 📦 Simulación de envío y resultado
+## 🔍 Explicación del flujo
 
-```javascript
-function initiateTransaction(onFinished) {
-  document.querySelector(".input-wrapper").classList.add("show-status");
-  document.querySelector(".amt").innerText = document.querySelector("input").value;
-
-  setTimeout(() => {
-    const isSuccess = Math.random() < 0.5; // Resultado aleatorio
-    onFinished(isSuccess);
-
-    const statusLabel = document.querySelector(".input-wrapper > h2");
-    statusLabel.innerText = isSuccess ? "Successful" : "Transaction Failed";
-  }, 4000);
-}
-```
+| Elemento                | Función                                                                  |
+|-------------------------|---------------------------------------------------------------------------|
+| `resultInput.value = n` | Define si el estado es exitoso (1) o fallido (0).                         |
+| `triggerInput.fire()`   | Lanza la animación que responde al resultado definido.                   |
+| `.result.innerText`     | Actualiza el texto visible según el resultado simulado.                  |
 
 ---
 
-## 🔍 ¿Qué hace cada input en Rive?
+## 🎯 ¿Cuándo usar este patrón?
 
-- `load` (Trigger): Inicia la animación de carga o envío.
-- `result` (Number): Define visualmente el estado final:
-  - 1: Éxito
-  - 0: Fallo
-
-En **Rive Studio**, estos inputs se vinculan a transiciones dentro de una *State Machine*.
+- Confirmaciones de acciones (envíos, compras, formularios).
+- Feedback visual inmediato tras una acción.
+- Interacción simple pero expresiva con el usuario.
 
 ---
 
-## 🎨 Resultado visual esperado
+## ✅ Buenas prácticas
 
-1. El usuario introduce una cantidad y pulsa "Send".
-2. Se dispara la animación `load`.
-3. Tras unos segundos, la animación muestra un resultado (éxito o error).
-4. El texto debajo del campo cambia dinámicamente.
+- ✔️ Nombra bien tus inputs (`send`, `result`) y asegúrate de que coincidan con los definidos en Rive.
+- ✔️ Muestra un resultado textual o visual que acompañe la animación.
+- ❌ No uses triggers sin establecer antes el valor del resultado.
+- ✔️ Usa `resizeDrawingSurfaceToCanvas()` para que el canvas se ajuste correctamente.
 
 ---
 
-## ✅ Conclusión
+## 🏁 Conclusión
 
-Esta técnica combina inputs de Rive con lógica de frontend para simular flujos reales de una app financiera. Es perfecta para mejorar la experiencia del usuario con retroalimentación visual elegante y dinámica.
+Esta integración demuestra cómo **Rive puede usarse para representar procesos lógicos** dentro de una app, añadiendo feedback visual atractivo a interacciones cotidianas. Combinar triggers y valores numéricos es una forma simple pero potente de **darle vida a la interfaz**. 🔁✅
 

@@ -1,10 +1,10 @@
 # ✅ Uso de Boolean Inputs en Rive
 
-Los **Boolean Inputs** en Rive son variables de tipo verdadero o falso que controlan el estado dentro de una *State Machine*. Son especialmente útiles para alternar animaciones o comportamientos de forma reactiva según interacciones del usuario, condiciones lógicas o cambios en el entorno de la app.
+Los **Boolean Inputs** en Rive son entradas que representan un estado binario: verdadero (`true`) o falso (`false`). Son perfectas para controlar **transiciones entre estados**, como mostrar/ocultar, encender/apagar o iniciar/detener una animación, según la lógica de tu aplicación o interacciones del usuario.
 
 ---
 
-## ⚙️ Ejemplo de configuración con Boolean Input
+## ⚙️ Ejemplo de uso en JavaScript
 
 ```html
 <canvas id="location-pin-icon" width="500" height="500"></canvas>
@@ -39,11 +39,11 @@ Los **Boolean Inputs** en Rive son variables de tipo verdadero o falso que contr
   function findDestination() {
     if (!searching) return;
 
-    // Activar estado de "buscando"
+    // Activar el estado "buscando"
     searching.value = true;
     result.innerText = "Buscando...";
 
-    // Simular una búsqueda
+    // Simular búsqueda
     setTimeout(() => {
       searching.value = false;
       result.innerText = `${textField.value} ¿es este el destino?`;
@@ -54,51 +54,45 @@ Los **Boolean Inputs** en Rive son variables de tipo verdadero o falso que contr
 
 ---
 
-## 🔍 Explicación de los elementos clave
+## 🧠 ¿Qué está pasando aquí?
 
-| Elemento | Descripción |
-|---------|-------------|
-| `stateMachineInputs()` | Devuelve todos los inputs definidos en la State Machine. |
-| `searching.value = true` | Activa el input booleano para cambiar el estado de la animación. |
-| `value = false` | Desactiva el input, lo que puede revertir o detener la animación. |
-| `keydown` + `Enter` | Detecta la acción del usuario e inicia el flujo de búsqueda. |
-
----
-
-## 🧠 Casos de uso típicos con Boolean Inputs
-
-### 🔄 Toggle visual
-- Mostrar o ocultar una animación de carga.
-- Cambiar entre dos estados visuales: encendido/apagado, abierto/cerrado, etc.
-
-### 🖱️ Respuesta a eventos del usuario
-- Activar un estado "hover" cuando el ratón pasa por encima.
-- Encender un modo "activo" al hacer clic en un botón.
-
-### 🧩 Comportamiento de componentes interactivos
-- Expandir o contraer una sección animada.
-- Activar el seguimiento de ubicación en un mapa animado.
-- Mostrar confirmaciones visuales (p. ej., "correcto" o "fallido").
-
-### 🎮 Aplicaciones en juegos
-- Iniciar una acción como correr, defender o esconderse.
-- Entrar en modo "alerta" o "dañado" visualmente.
+| Elemento                    | Función                                                                 |
+|----------------------------|-------------------------------------------------------------------------|
+| `stateMachineInputs()`     | Devuelve los inputs de la máquina de estados.                          |
+| `searching.value = true`   | Activa la animación de búsqueda.                                       |
+| `searching.value = false`  | La desactiva (regresa a su estado anterior).                           |
+| Evento `keydown` + Enter   | Detecta cuando el usuario presiona Enter en el input de texto.         |
 
 ---
 
-## 🚦 Buenas prácticas
+## 🔍 ¿Para qué usar Boolean Inputs?
 
-- ✅ Verifica que el input exista antes de modificarlo.
-- ✅ Usa nombres claros y descriptivos para los inputs, como `isOpen`, `searching`, `isActive`, etc.
-- ❌ No utilices triggers para estados persistentes. Usa booleanos si el estado debe mantenerse.
-- ✅ Mantén el control del cambio de valor desde JS o desde la propia State Machine según convenga.
+### ✅ Casos comunes:
+
+- Cambiar visualmente entre dos estados (p. ej. interruptores on/off).
+- Mostrar una animación de carga mientras se espera una respuesta.
+- Cambiar de "modo activo" a "modo inactivo".
+- Indicar si un elemento está seleccionado, visible, enfocado, etc.
+
+### 🎮 En juegos o apps interactivas:
+
+- Mostrar si un personaje está corriendo, saltando o herido.
+- Entrar o salir de un estado especial (modo escudo, invisibilidad, etc.).
+
+---
+
+## ⚠️ Buenas prácticas
+
+- ✔️ Asegúrate de que el input existe (`if (input) input.value = true;`).
+- ✔️ Usa nombres de inputs claros como `isActive`, `searching`, `showDetails`, etc.
+- ❌ No uses triggers para representar estados persistentes.
+- ✔️ Decide si el cambio de valor ocurre desde JS o desde la lógica visual en Rive.
 
 ---
 
 ## ✅ Conclusión
 
-Los **Boolean Inputs** son ideales para representar estados binarios dentro de una animación. Su uso permite que las animaciones respondan de forma más natural y contextual a eventos del usuario o lógica de aplicación.
+Los **Boolean Inputs** son ideales para manejar animaciones que representan un estado que puede estar activo o inactivo. Son simples, potentes y muy útiles cuando quieres que tu animación reaccione de forma continua a una condición.
 
-Combinados con otras entradas como triggers o números, puedes construir flujos de interacción complejos sin perder claridad ni control.
-
+Combinados con triggers y valores numéricos, te permiten construir experiencias visuales interactivas con una lógica clara y mantenible. 💡
 

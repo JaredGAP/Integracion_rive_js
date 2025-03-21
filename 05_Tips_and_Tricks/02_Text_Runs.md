@@ -1,83 +1,76 @@
-# 🔤 Test Runs: Control de Texto en Rive desde JavaScript
+# ✍️ Text Runs en Rive: Texto Dinámico desde Código
 
-**Text Runs** (también llamados "Text Input" o "Text Runs" en el contexto de Rive) permiten modificar dinámicamente el texto de una animación Rive desde JavaScript. Esto es ideal para personalizar títulos, botones, mensajes o cualquier contenido textual embebido en una animación.
-
----
-
-## 🧠 ¿Qué aprenderás?
-
-- Cómo leer el texto actual de una animación Rive.
-- Cómo cambiar ese texto desde tu código JS.
-- Cómo hacer que una animación reaccione a un clic modificando el texto en tiempo real.
+**Text Runs** es una característica experimental de Rive que permite **reemplazar texto desde JavaScript**, ideal para crear componentes como tarjetas animadas, presentaciones, estadísticas, mensajes o interfaces con contenido que cambia dinámicamente.
 
 ---
 
-## 📄 HTML de ejemplo
+## 🧠 ¿Qué es un Text Run?
+
+Un **Text Run** es una línea de texto en un artboard que puede ser detectada y modificada desde JavaScript usando el método `textRun()` del runtime de Rive.
+
+Esto permite cambiar el contenido del texto **sin necesidad de editar el archivo `.riv` en Rive Studio**.
+
+---
+
+## ⚙️ Ejemplo práctico
 
 ```html
-<main class="center">
-  <div class="container" onclick="changeText()">
-    <canvas></canvas>
-  </div>
-</main>
+<canvas width="500" height="500"></canvas>
+<input type="text" placeholder="Escribe algo..." />
 ```
-
-Este HTML define un canvas que renderiza una animación de Rive. Cuando el usuario hace clic en el contenedor, se llama a `changeText()` para cambiar el texto.
-
----
-
-## ⚙️ JavaScript: lectura y modificación de texto
 
 ```javascript
+let textRun;
+
 const animation = new rive.Rive({
-  src: "button.riv",
+  src: "text-run.riv",
   canvas: document.querySelector("canvas"),
   autoplay: true,
-  artboard: "Label",
-  stateMachines: "state-machine",
   onLoad: () => {
     animation.resizeDrawingSurfaceToCanvas();
-
-    // Leer valor de texto actual
-    console.log(animation.getTextRunValue("label"));
-  },
+    textRun = animation.textRun("mensaje"); // nombre del Text Run en Rive Studio
+  }
 });
 
-function changeText() {
-  // Cambiar el texto de forma dinámica
-  animation.setTextRunValue("label", "Get Started Here");
-}
+const input = document.querySelector("input");
+input.addEventListener("input", () => {
+  if (textRun) textRun.text = input.value;
+});
 ```
 
 ---
 
-## 📌 Explicación de métodos clave
+## 📖 ¿Qué hace este código?
 
-| Método | Descripción |
-|--------|-------------|
-| `getTextRunValue("nombre")` | Devuelve el texto actual del elemento de texto nombrado. |
-| `setTextRunValue("nombre", "nuevo texto")` | Cambia el valor del texto visualizado en tiempo real. |
-
----
-
-## 🎯 Requisitos en Rive Studio
-
-Para usar Text Runs correctamente:
-1. Crea un **Text Run** en tu artboard (desde la barra de herramientas).
-2. Asígnale un **nombre** único (por ejemplo: `label`).
-3. Asegúrate de que el artboard y el nombre del texto coincidan con los usados en JS.
+| Elemento                  | Función                                                                 |
+|---------------------------|-------------------------------------------------------------------------|
+| `textRun("mensaje")`      | Accede al Text Run definido en Rive con el nombre "mensaje".            |
+| `textRun.text = valor`    | Cambia el contenido del texto en tiempo real.                           |
+| `input.addEventListener`  | Detecta entrada del usuario y actualiza la animación.                   |
 
 ---
 
-## 🧪 Casos de uso comunes
+## 🎯 Casos de uso recomendados
 
-- Botones dinámicos: cambia el texto al pasar el cursor o hacer clic.
-- Mensajes personalizados en onboarding.
-- Etiquetas contextuales (como nombre del usuario, idioma, etc.).
-- Títulos animados que cambian con la sección o scroll.
+- **Tarjetas personalizadas**: texto que cambia según el usuario.
+- **Formularios con animación**: donde el contenido aparece escrito en tiempo real.
+- **Sistemas de notificación**: donde el mensaje cambia según el resultado (éxito, error, etc.).
+- **Interfaces educativas o narrativas** con texto interactivo.
+
+---
+
+## 🧪 Consideraciones importantes
+
+- Actualmente, **solo es compatible con ciertas fuentes** (por ahora fuentes integradas por Rive).
+- Asegúrate de que el objeto de texto en Rive esté preparado como **Text Run**.
+- El texto puede no responder a salto de línea (`\n`), según el render.
+- Esta característica aún está evolucionando, por lo que su soporte puede cambiar.
 
 ---
 
 ## ✅ Conclusión
 
-**Text Runs** en Rive son una herramienta poderosa para hacer tus animaciones más flexibles y personalizables. Combinados con interacciones JS, puedes ofrecer contenido textual dinámico con una presentación visual impactante.
+`Text Runs` abre la puerta a crear animaciones con texto adaptable y vivo, directamente desde código JavaScript. Es perfecto para interfaces donde el contenido textual **responde a la interacción del usuario o cambia en tiempo real**, sin tener que reexportar la animación.
+
+Ideal para mensajes personalizados, presentaciones, formularios animados y mucho más. 🧠💬
+

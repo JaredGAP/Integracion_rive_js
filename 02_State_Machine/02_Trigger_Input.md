@@ -1,16 +1,16 @@
 # 🚀 Uso Avanzado de Trigger Inputs en Rive
 
-Los **Trigger Inputs** en Rive son una poderosa herramienta para ejecutar eventos específicos dentro de una *State Machine*. Funcionan como botones de acción: no almacenan estado, pero permiten *disparar* animaciones o transiciones en respuesta a una acción del usuario, a lógica de tu app o a cualquier evento del entorno.
+Los **Trigger Inputs** en Rive son una herramienta esencial para crear animaciones reactivas. Funcionan como botones de acción: no almacenan un valor como los booleanos o los numéricos, sino que **se activan en un momento puntual**, provocando transiciones o efectos definidos en la máquina de estados.
 
 ---
 
 ## ⚙️ ¿Qué es un Trigger Input?
 
-Un **Trigger** es un tipo de input dentro de una *State Machine* en Rive que se activa de forma puntual. A diferencia de los booleanos o numéricos, no mantiene valor alguno, sino que provoca una transición inmediata o ejecuta una acción específica cuando se dispara.
+Un **Trigger** es un tipo de entrada en una *State Machine* que se dispara una sola vez y no guarda estado. Es perfecto para situaciones donde quieres que algo ocurra *cuando sucede un evento*, como un clic o una acción concreta en tu aplicación.
 
 ---
 
-## 🔧 Configuración básica de un Trigger en JavaScript
+## 🧪 Ejemplo básico en JavaScript
 
 ```html
 <canvas width="500" height="500"></canvas>
@@ -26,83 +26,72 @@ Un **Trigger** es un tipo de input dentro de una *State Machine* en Rive que se 
     onLoad: () => {
       animation.resizeDrawingSurfaceToCanvas();
 
-      // Obtener todos los inputs de la máquina de estados
+      // Obtener los inputs de la state machine
       const inputs = animation.stateMachineInputs("state-machine");
 
-      // Buscar el trigger por nombre
+      // Buscar el trigger por su nombre
       notifyTrigger = inputs.find(input => input.name === "notify");
 
-      // Activar el trigger inmediatamente (solo como ejemplo)
-      notifyTrigger.fire();
+      // Disparar el trigger una vez cargado
+      if (notifyTrigger) notifyTrigger.fire();
     }
   });
 
-  // Activar el trigger manualmente al hacer clic
+  // Disparar el trigger manualmente al hacer clic en el canvas
   document.querySelector("canvas").addEventListener("click", () => {
-    notifyTrigger.fire();
+    if (notifyTrigger) notifyTrigger.fire();
   });
 </script>
 ```
 
----
+### 📖 ¿Qué está pasando aquí?
 
-## 📖 Explicación de cada parte
-
-| Elemento | Descripción |
-|---------|-------------|
-| `stateMachineInputs()` | Devuelve los inputs definidos en la máquina de estados. |
-| `input.name === "notify"` | Identifica el input tipo Trigger que creaste en Rive. |
-| `fire()` | Dispara el trigger: lanza la transición o evento asociado. |
+| Elemento                       | Función                                                             |
+|-------------------------------|---------------------------------------------------------------------|
+| `stateMachineInputs()`        | Obtiene todos los inputs de una máquina de estados                  |
+| `input.name === "notify"`     | Busca el input llamado "notify" (debe coincidir con el nombre en Rive) |
+| `fire()`                      | Dispara el trigger para ejecutar una transición o efecto puntual   |
 
 ---
 
-## 🧠 ¿Para qué sirven los Trigger Inputs?
+## 🎯 ¿Cuándo usar Trigger Inputs?
 
-Los triggers se utilizan para lanzar acciones específicas **una sola vez**, sin necesidad de cambiar o mantener valores. Por ejemplo:
+Los triggers son ideales para reacciones inmediatas. Algunos ejemplos:
 
-- 🔔 Hacer sonar una campana cuando llega una notificación.
-- 💥 Mostrar una explosión tras una colisión.
-- 🧤 Ejecutar una animación de "apretón de manos" al hacer clic en un botón.
-- 🧼 Lanzar una secuencia de limpieza cuando se detecta una acción de usuario.
-- 📬 Reproducir una animación de "enviar mensaje" al hacer clic en un formulario.
-
----
-
-## 🧪 Casos de uso interesantes
-
-### 🎮 Interacciones en juegos
-- Disparar una animación de golpe al pulsar un botón de ataque.
-- Activar un power-up visual cuando se recoge un ítem.
-
-### 💼 Aplicaciones empresariales o dashboards
-- Mostrar una animación de validación exitosa al completar un formulario.
-- Reproducir una animación sutil cuando cambia el estado de un KPI (por ejemplo, sube una métrica).
-
-### 📱 Apps móviles o SPA (Single Page Applications)
-- Animaciones de respuesta táctil (por ejemplo, ripple effects).
-- Transiciones suaves entre secciones al navegar en la app.
-
-### 🖼️ Elementos decorativos o microinteracciones
-- Disparar partículas al pasar el mouse sobre un elemento.
-- Mostrar un pulso luminoso en una notificación nueva.
-- Lanzar una reacción (emoji, fuego, etc.) al pulsar un botón de "like".
+- 🔔 Mostrar una notificación animada.
+- 💥 Lanzar una explosión tras un evento en un juego.
+- 📬 Ejecutar la animación de “mensaje enviado” al hacer clic.
+- 🧤 Animación de saludo al pasar el mouse por encima de un avatar.
+- 🔄 Reiniciar una animación que debe reproducirse desde el inicio.
 
 ---
 
-## 🚦 Buenas prácticas al usar Trigger Inputs
+## 🌟 Casos de uso prácticos
 
-- ✅ Verifica siempre que el trigger exista (`if (trigger) trigger.fire()`).
-- ✅ Usa nombres descriptivos en Rive como `onClick`, `explode`, `submitForm`, etc.
-- ✅ Combina triggers con lógica visual en Rive para crear experiencias sin lógica extra en JS.
-- ❌ No intentes asignarles valores. No son booleanos ni contadores.
+### En interfaces gráficas:
+- Botones que lanzan una animación al presionarlos.
+- Microinteracciones (como un icono que salta al ser activado).
+
+### En dashboards o apps empresariales:
+- Reproducir una animación de éxito o error tras validar un formulario.
+
+### En sitios creativos o animados:
+- Disparar partículas, reacciones o efectos visuales según la interacción del usuario.
 
 ---
 
-## ✅ Conclusión
+## ✅ Buenas prácticas
 
-Los **Trigger Inputs** son el mecanismo perfecto para conectar tus animaciones con acciones reales del usuario o de tu aplicación. Permiten reacciones inmediatas y elegantes, haciendo que la interfaz cobre vida.
+- ✔️ Verifica siempre que el trigger exista antes de usar `.fire()`.
+- ✔️ Usa nombres descriptivos para tus triggers (ej: `onClick`, `explode`, `submitForm`).
+- ✔️ Mantén la lógica visual en Rive y la lógica de eventos en JavaScript.
+- ❌ No intentes asignarles valores: los triggers no son variables, solo se disparan.
 
-Explora su potencial, experimenta con varios triggers en la misma *State Machine* y diseña flujos visuales ricos sin complicar tu lógica de programación.
+---
 
+## 📌 Conclusión
 
+Los **Trigger Inputs** te permiten conectar tu animación con la interacción del usuario de manera inmediata y fluida. Son el puente perfecto entre eventos de la interfaz y las transiciones visuales diseñadas en Rive.
+
+En los siguientes capítulos exploraremos otros tipos de inputs (como booleanos y números) para enriquecer aún más la lógica visual de tus proyectos. 🚀
 
